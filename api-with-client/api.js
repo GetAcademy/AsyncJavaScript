@@ -9,7 +9,6 @@ const delayedUrl = 'https://httpbin.org/delay/3';
 function sleepSync(milliseconds) {
     const start = Date.now();
     while (Date.now() - start < milliseconds) {
-        // Blokkerer løkken
     }
 }
 
