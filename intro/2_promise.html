@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="myReject()">reject</button>
+    <button onclick="myResolve()">resolve</button>
+    <script>
+        let myResolve;
+        let myReject;
+
+        new Promise((resolve, reject) => {
+            document.body.style.backgroundColor = 'gray'
+            myResolve = resolve;
+            myReject = reject;
+        })
+            .then(() => document.body.style.backgroundColor = 'green')
+            .catch(() => document.body.style.backgroundColor = 'red');
+
+        /*
+          - pakke inn operasjoner som asynkron operasjon
+          - skrevet som builder pattern (skrive om til uten)
+        */
+    </script>
+</body>
+
+</html>

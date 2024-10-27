@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        doIt();
+        async function doIt() {
+            for (let green = 0; green < 256; green += 16) {
+                document.body.style.backgroundColor = `rgb(${255 - green}, ${green}, 127)`;
+                // if (!confirm('neste')) return;
+                await new Promise((resolve, reject) => {
+                    if (confirm('neste')) setTimeout(resolve, 50);
+                    else reject();
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
