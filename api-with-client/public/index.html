@@ -13,10 +13,10 @@
     <button onclick="getDataSync()">Get sync</button>
 
     <script>
-        let callCounter = 0;
+        let callCounterMain = 0;
 
         async function getDataAsync() {
-            callCounter++;
+            let callCounter = ++callCounterMain;
             const startTimeMillis = Date.now();
             console.log(`starting ${callCounter}`);
             const response = await fetch('/async-read');
