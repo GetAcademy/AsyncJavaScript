@@ -1,25 +1,22 @@
 const express = require('express');
-const path = require('path');
+const axios = require('axios');
 const app = express();
-const filePath = 'bigfile.txt';
 
-app.use(express.static(path.join(__dirname, 'public')));
+const delayedUrl = 'https://httpbin.org/delay/3';
+
 app.get('/sync-read', (req, res) => {
-    try {
-        const data = fs.readFileSync(filePath, 'utf-8');
-        res.send({ message: 'File read synchronously', length: data.length });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: 'Error reading file synchronously' });
-    }
+    axios.get(delayedUrl).then(response => {
+        res.send({ message: 'Sync call completed', data: response.data });
+    }).catch(error => {
+        res.status(500).send({ error: 'Error in sync call' });
+    });
 });
 app.get('/async-read', async (req, res) => {
     try {
-        const data = await fs.readFile(filePath, 'utf-8');
-        res.send({ message: 'File read asynchronously (await)', length: data.length });
+        const response = await axios.get(delayedUrl); 
+        res.send({ message: 'Async call completed', data: response.data });
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: 'Error reading file asynchronously' });
+        res.status(500).send({ error: 'Error in async call' });
     }
 });
 const PORT = process.env.PORT || 3000;

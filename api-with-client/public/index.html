@@ -9,15 +9,21 @@
 
 <body>
     <h1>Hello from the static HTML!</h1>
-    <button id="fetch-data">Get Data from API</button>
-    <p id="api-response"></p>
+    <button onclick="getDataAsync()">Get async</button>
+    <button onclick="getDataSync()">Get sync</button>
 
     <script>
-        document.getElementById('fetch-data').addEventListener('click', async () => {
-            const response = await fetch('/api/data');
+        let callCounter = 0;
+
+        async function getDataAsync() {
+            callCounter++;
+            const startTimeMillis = Date.now();
+            console.log(`starting ${callCounter}`);
+            const response = await fetch('/async-read');
             const data = await response.json();
-            document.getElementById('api-response').innerText += data.message;
-        });
+            const spentMillis = Date.now() - startTimeMillis;            
+            console.log(`finished ${callCounter} - spent ${spentMillis}ms`);
+        }
 
     </script>
 </body>
