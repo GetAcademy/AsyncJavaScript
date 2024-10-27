@@ -6,39 +6,31 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 const delayedUrl = 'https://httpbin.org/delay/3';
 
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  
-  // Synkront API-endepunkt (simulert)
-  app.get('/sync-read', (req, res) => {
-    delay(3000).then(() => {
-      res.send({ message: 'Sync call completed' });
-    });
-  });
-  
-  // Asynkront API-endepunkt med async/await
-  app.get('/async-read', async (req, res) => {
-    await delay(3000); // Vent 3 sekunder asynkront
-    res.send({ message: 'Async call completed' });
-  });
-  
+function sleepSync(milliseconds) {
+    const start = Date.now();
+    while (Date.now() - start < milliseconds) {
+        // Blokkerer løkken
+    }
+}
 
-// app.get('/sync-read', (req, res) => {
-//     axios.get(delayedUrl).then(response => {
-//         res.send({ message: 'Sync call completed', data: response.data });
-//     }).catch(error => {
-//         res.status(500).send({ error: 'Error in sync call' });
-//     });
-// });
-// app.get('/async-read', async (req, res) => {
-//     try {
-//         const response = await axios.get(delayedUrl); 
-//         res.send({ message: 'Async call completed', data: response.data });
-//     } catch (error) {
-//         res.status(500).send({ error: 'Error in async call' });
-//     }
-// });
+app.post('/sync-read', (req, res) => {
+    const { callCounter } = req.query;
+    console.log(`starting ${callCounter}`);
+    sleepSync(3000);
+    res.send({ message: 'Sync call completed', data: {} });
+    console.log(`finished ${callCounter}`);
+});
+app.post('/async-read', async (req, res) => {
+    try {
+        const { callCounter } = req.query;
+        console.log(`starting ${callCounter}`);
+        const response = await axios.get(delayedUrl);
+        res.send({ message: 'Async call completed', data: response.data });
+        console.log(`finished ${callCounter}`);
+    } catch (error) {
+        res.status(500).send({ error: 'Error in async call' });
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
