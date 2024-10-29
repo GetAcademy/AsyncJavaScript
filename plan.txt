@@ -1,7 +1,7 @@
 1: Callbacks
 2: Promises
 3: Async og await
-4: demo api med og uten async
+4: Demo api med og uten async
 
 
 
