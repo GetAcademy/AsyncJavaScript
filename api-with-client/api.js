@@ -19,6 +19,7 @@ app.post('/sync-read', (req, res) => {
     res.send({ message: 'Sync call completed', data: {} });
     console.log(`finished ${callCounter}`);
 });
+
 app.post('/async-read', async (req, res) => {
     try {
         const { callCounter } = req.query;
@@ -30,6 +31,7 @@ app.post('/async-read', async (req, res) => {
         res.status(500).send({ error: 'Error in async call' });
     }
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -11,14 +11,20 @@
     <script>
         doIt();
         async function doIt() {
-            for (let green = 0; green < 256; green += 16) {
-                document.body.style.backgroundColor = `rgb(${255 - green}, ${green}, 127)`;
-                // if (!confirm('neste')) return;
-                await new Promise((resolve, reject) => {
-                    if (confirm('neste')) setTimeout(resolve, 50);
-                    else reject();
-                });
+            try {
+                for (let green = 0; green < 256; green += 16) {
+                    document.body.style.backgroundColor = `rgb(${255 - green}, ${green}, 127)`;
+                    // if (!confirm('neste')) return;
+                    await new Promise(myPromiseFunction);
+                }
+            } catch {
+                document.body.style.backgroundColor = `red`;
             }
+        }
+
+        function myPromiseFunction(resolve, reject) {
+            if (confirm('neste')) setTimeout(resolve, 50);
+            else reject();
         }
     </script>
 </body>
